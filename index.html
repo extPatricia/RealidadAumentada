@@ -37,10 +37,13 @@
         <video
           id="video"
           src="./video.mp4"
-          loop
-          playsinline
-          muted
           preload="auto"
+          response-type="arraybuffer"
+          loop
+          crossorigin
+          autoplay
+          playsinline
+          webkit-playsinline
         ></video>
       </a-assets>
 
@@ -50,8 +53,8 @@
       <a-entity mindar-image-target="targetIndex: 0">
         <a-video
           src="#video"
-          width="1"
-          height="1"
+          width="2"
+          height="2"
           position="0 0 0"
           rotation="0 0 0"
           material="shader: flat"
