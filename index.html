@@ -92,7 +92,7 @@
 	<!--<img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" />
 	<a-asset-item id="avatarModel" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/softmind/scene.gltf"></a-asset-item>
      --> <video
-          id="video" src="./video.mp4" preload="auto" response-type="arraybuffer" loop autoplay playsinline preload="auto"></video>
+          id="video" src="./video.mp4" preload="auto" response-type="arraybuffer" loop playsinline preload="auto"></video>
 	  </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -109,14 +109,27 @@
 	<script>
 	  document.addEventListener("DOMContentLoaded", () => {
 	    const video = document.querySelector("#video");
+	    let videoStarted = false;
 	
-	    // Cuando el target es encontrado, reproducir el video
+	    // Cuando el target es encontrado, activar el video con sonido
 	    document.querySelector("[mindar-image-target]").addEventListener("targetFound", () => {
-	      video.play();
+	      if (!videoStarted) {
+	        console.log("Target encontrado, tocar para reproducir video con sonido");
+	        // Mostrar un mensaje o animación para que el usuario toque la pantalla
+	        document.querySelector("a-scene").addEventListener("click", () => {
+	          video.play().then(() => {
+	            videoStarted = true; // Solo lo hace una vez
+	            console.log("Video reproduciéndose con sonido");
+	          }).catch((err) => {
+	            console.log("Error al intentar reproducir el video:", err);
+	          });
+	        });
+	      }
 	    });
 	
 	    // Cuando el target es perdido, pausar el video
 	    document.querySelector("[mindar-image-target]").addEventListener("targetLost", () => {
+	      console.log("Target perdido, pausar video");
 	      video.pause();
 	    });
 	  });
