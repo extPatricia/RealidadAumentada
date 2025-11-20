@@ -90,7 +90,16 @@
     <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
 		  <video
-          id="video" src="./video.mp4" preload="auto" response-type="arraybuffer" loop playsinline muted preload="auto"></video>
+	          id="video" 
+			  src="./video.mp4" 
+			  preload="auto" 
+			  response-type="arraybuffer" 
+			  loop
+	          crossorigin
+	          autoplay
+	          playsinline
+	          webkit-playsinline>	  
+		  </video>
 	  </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -99,7 +108,7 @@
 		<a-video src="#video" position="0 0 0.1" width="2" height="2" rotation="0 0 0"></a-video>
       </a-entity>
     </a-scene>
-	<script>
+	<!--<script>
       document.addEventListener("DOMContentLoaded", () => {
         const video = document.querySelector("#video");
 
@@ -129,6 +138,6 @@
           video.pause();
         });
       });
-    </script>
+    </script>-->
   </body>
 </html>
