@@ -114,5 +114,22 @@
 		<a-video src="#video" position="0 0 0.1" width="2" height="2" rotation="0 0 0"></a-video>
       </a-entity>
     </a-scene>
+
+	<script>
+	  document.addEventListener("DOMContentLoaded", () => {
+	    const video = document.querySelector("#video");
+	
+	    // Cuando el target es encontrado, reproducir el video
+	    document.querySelector("[mindar-image-target]").addEventListener("targetFound", () => {
+	      video.play();
+	    });
+	
+	    // Cuando el target es perdido, pausar el video
+	    document.querySelector("[mindar-image-target]").addEventListener("targetLost", () => {
+	      video.pause();
+	    });
+	  });
+	</script>
+
   </body>
 </html>
