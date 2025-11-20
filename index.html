@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.0/dist/mindar-image-three.prod.js"></script>
+
+    <style>
+      body { margin: 0; overflow: hidden; }
+      video { width: 0; height: 0; } /* ocultamos el video en HTML */
+    </style>
+  </head>
+
+  <body>
+    <!-- video oculto que se reproducirá sobre el target -->
+    <video id="video" src="./video.mp4" preload="auto" loop></video>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const mindarThree = new window.MINDAR.IMAGE.MindARThree({
+          container: document.body,
+          imageTargetSrc: "./targets.mind"
+        });
+
+        const { renderer, scene, camera } = mindarThree;
+
+        const anchor = mindarThree.addAnchor(0);
+
+        // Crear una textura desde el video
+        const video = document.getElementById("video");
+        const texture = new THREE.VideoTexture(video);
+        const geometry = new THREE.PlaneGeometry(1, 0.6);
+        const material = new THREE.MeshBasicMaterial({ map: texture });
+        const plane = new THREE.Mesh(geometry, material);
+
+        anchor.group.add(plane);
+
+        anchor.onTargetFound = () => video.play();
+        anchor.onTargetLost = () => video.pause();
+
+        mindarThree.start();
+        renderer.setAnimationLoop(() => renderer.render(scene, camera));
+      });
+    </script>
+  </body>
+</html>
