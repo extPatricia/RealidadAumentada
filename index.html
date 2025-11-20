@@ -105,35 +105,36 @@
 		<a-video src="#video" position="0 0 0.1" width="2" height="2" rotation="0 0 0"></a-video>
       </a-entity>
     </a-scene>
-
 	<script>
-	  document.addEventListener("DOMContentLoaded", () => {
-	    const video = document.querySelector("#video");
-	    let videoStarted = false;
-	
-	    // Cuando el target es encontrado, activar el video con sonido
-	    document.querySelector("[mindar-image-target]").addEventListener("targetFound", () => {
-	      if (!videoStarted) {
-	        console.log("Target encontrado, tocar para reproducir video con sonido");
-	        // Mostrar un mensaje o animación para que el usuario toque la pantalla
-	        document.querySelector("a-scene").addEventListener("click", () => {
-	          video.play().then(() => {
-	            videoStarted = true; // Solo lo hace una vez
-	            console.log("Video reproduciéndose con sonido");
-	          }).catch((err) => {
-	            console.log("Error al intentar reproducir el video:", err);
-	          });
-	        });
-	      }
-	    });
-	
-	    // Cuando el target es perdido, pausar el video
-	    document.querySelector("[mindar-image-target]").addEventListener("targetLost", () => {
-	      console.log("Target perdido, pausar video");
-	      video.pause();
-	    });
-	  });
-	</script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const video = document.querySelector("#video");
 
+        // Por defecto, el video está en pausa y en silencio
+        video.pause();
+
+        // Cuando el target es encontrado, mostrar el video
+        document.querySelector("[mindar-image-target]").addEventListener("targetFound", () => {
+          console.log("Target encontrado, video mostrado (en pausa)");
+
+          // Ahora esperamos el clic para activar el sonido
+          document.querySelector("a-scene").addEventListener("click", () => {
+            if (video.paused) {
+              video.play().then(() => {
+                video.muted = false; // Desactivar el mute para reproducir con sonido
+                console.log("Video reproduciéndose con sonido");
+              }).catch((err) => {
+                console.log("Error al intentar reproducir el video:", err);
+              });
+            }
+          });
+        });
+
+        // Cuando el target es perdido, pausar el video
+        document.querySelector("[mindar-image-target]").addEventListener("targetLost", () => {
+          console.log("Target perdido, pausar video");
+          video.pause();
+        });
+      });
+    </script>	
   </body>
 </html>
