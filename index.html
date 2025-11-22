@@ -29,7 +29,7 @@
       	-->
 		  <a-gltf-model 
           src="#avatarModel"
-          scale="0.1 0.1 0.1"
+          scale="1 1 1"
           position="0 0 0.1">
         </a-gltf-model>
 	  </a-entity>
@@ -55,36 +55,5 @@
         },
       });
     </script>
-	<!--<script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const video = document.querySelector("#video");
-
-        // Por defecto, el video está en pausa y en silencio
-        video.pause();
-
-        // Cuando el target es encontrado, mostrar el video
-        document.querySelector("[mindar-image-target]").addEventListener("targetFound", () => {
-          console.log("Target encontrado, video mostrado (en pausa)");
-
-          // Ahora esperamos el clic para activar el sonido
-          document.querySelector("a-scene").addEventListener("click", () => {
-            if (video.paused) {
-              video.play().then(() => {
-                video.muted = false; // Desactivar el mute para reproducir con sonido
-                console.log("Video reproduciéndose con sonido");
-              }).catch((err) => {
-                console.log("Error al intentar reproducir el video:", err);
-              });
-            }
-          });
-        });
-
-        // Cuando el target es perdido, pausar el video
-        document.querySelector("[mindar-image-target]").addEventListener("targetLost", () => {
-          console.log("Target perdido, pausar video");
-          video.pause();
-        });
-      });
-    </script>-->
   </body>
 </html>
