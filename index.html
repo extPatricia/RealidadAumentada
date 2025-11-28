@@ -31,30 +31,23 @@
     </a-scene>
 	  <script>
        AFRAME.registerComponent('mytarget', {
-        init: function () {
+ 		        init: function () {
           this.el.addEventListener('targetFound', event => {
             console.log("target found");
             const video = this.el.querySelector('a-video');
             if (video) {
               video.object3D.visible = true;
-              const videoEl = video.getAttribute('material').src;
-              if (video) {
-              video.object3D.visible = true;
-              // Intenta reproducir automáticamente con sonido
-              const videoEl = video.getAttribute('material').src;
-              if (videoEl) {
-                videoEl.play().catch(e => {
-                  console.log("Autoplay con sonido bloqueado:", e);
-                  // Si falla, añade un click para reproducir
-                  video.addEventListener('click', () => {
-                    videoEl.play();
-                  });
-                });
-              }
+              // Añade event listener para click y reproduce con sonido
+              video.addEventListener('click', () => {
+                const videoEl = video.getAttribute('material').src;
+                if (videoEl) {
+                  videoEl.play();
+                }
+              });
             }
           });
           this.el.addEventListener('targetLost', event => {
-            console.log("target found");
+            console.log("target lost");
           	const video = this.el.querySelector('a-video');
             if (video) {
               const videoEl = video.getAttribute('material').src;
@@ -63,7 +56,7 @@
               }
               video.object3D.visible = false;
             }
-          });
+		});
         }
       });
     </script>
