@@ -14,7 +14,6 @@
 			  preload="auto" 
 			  response-type="arraybuffer" 
 			  loop
-			  autoplay
 	          crossorigin
 	          playsinline
 	          webkit-playsinline>	  
@@ -25,7 +24,6 @@
 			  preload="auto" 
 			  response-type="arraybuffer" 
 			  loop
-			  autoplay
 	          crossorigin
 	          playsinline
 	          webkit-playsinline>	  
@@ -36,10 +34,10 @@
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <a-entity mindar-image-target="targetIndex: 0" pause-on-lost>
-		<a-video src="#videoIciar" position="0 0 0.1" width="2" height="3" rotation="0 0 0" material="shader: flat" play-on-click></a-video>	
+		<a-video src="#videoIciar" position="0 0 0.1" width="1" height="2" rotation="0 0 0" material="shader: flat" play-on-click></a-video>	
 	  </a-entity>
 	  <a-entity mindar-image-target="targetIndex: 1" pause-on-lost>
-		<a-video src="#videoAmigos" position="0 0 0.1" width="2" height="2" rotation="0 0 0" material="shader: flat" play-on-click></a-video>
+		<a-video src="#videoAmigos" position="0 0 0.1" width="1" height="1" rotation="0 0 0" material="shader: flat" play-on-click></a-video>
 	  </a-entity>
 	  <a-entity mindar-image-target="targetIndex: 2">
 		 <a-gltf-model 
@@ -61,7 +59,18 @@
            window.removeEventListener("click", this.onClick);
          },
          onClick: function (evt) {
-           var videoEl = this.el.getAttribute("material").src;
+           // Pausar todos los otros videos antes de reproducir este
+           const allVideos = document.querySelectorAll('a-video');
+           allVideos.forEach(video => {
+             if (video !== this.el) {
+               const otherVideoEl = video.getAttribute("material").src;
+               if (otherVideoEl) {
+                 otherVideoEl.pause();
+                 otherVideoEl.currentTime = 0; // Reiniciar al inicio si es necesario
+               }
+             }
+           });
+		   var videoEl = this.el.getAttribute("material").src;
            if (!videoEl) {
              return;
            }
@@ -77,7 +86,7 @@
              if (video) {
                const videoEl = video.getAttribute('material').src;
                videoEl.pause();
-               // Opcional: ocultar el video cuando se pierde el target
+               videoEl.currentTime = 0;
                video.object3D.visible = false;
              }
            });
