@@ -8,37 +8,19 @@
   <body>
     <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
-		  <video
-	          id="videoIciar" 
-			  src="./videoIciar.mp4" 
-			  preload="auto" 
-			  response-type="arraybuffer" 
-			  loop
-	          crossorigin
-	          playsinline
-	          webkit-playsinline>	  
-		  </video>
-		  <video
-	          id="videoAmigos" 
-			  src="./videoAmigos.mp4" 
-			  preload="auto" 
-			  response-type="arraybuffer" 
-			  loop
-	          crossorigin
-	          playsinline
-	          webkit-playsinline>	  
-		  </video>
+		  <video id="videoIciar" autoplay="false" loop="true" src="./videoIciar.mp4"></video>
+		 <!-- <video id="videoAmigos" autoplay="false" loop="true" src="./videoAmigos.mp4"></video>-->
 		  <a-asset-item id="avatarModel" src="./sackboy.glb"></a-asset-item>
 	  </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <a-entity mindar-image-target="targetIndex: 0" show-on-found pause-on-lost>
-		<a-video src="#videoIciar" position="0 0 0.1" width="2" height="3" rotation="0 0 0" material="shader: flat" play-on-click></a-video>	
+      <a-entity mytarget mindar-image-target="targetIndex: 0">
+		<a-video id="videoIciar" webkit-playsinline playsinline width="2" height="3" position="0 0 0" rotation="0 0 0"></a-video>
 	  </a-entity>
-	  <a-entity mindar-image-target="targetIndex: 1" show-on-found pause-on-lost>
-		<a-video src="#videoAmigos" position="0 0 0.1" width="2" height="2" rotation="0 0 0" material="shader: flat" play-on-click></a-video>
-	  </a-entity>
+	  <!--<a-entity mindar-image-target="targetIndex: 1">
+		<a-video id="videoAmigos" webkit-playsinline playsinline position="0 0 0" width="2" height="2" rotation="0 0 0"></a-video>
+	  </a-entity>-->
 	  <a-entity mindar-image-target="targetIndex: 2">
 		 <a-gltf-model 
 		  src="#avatarModel"
@@ -48,58 +30,32 @@
 	   </a-entity>
     </a-scene>
 	  <script>
-       AFRAME.registerComponent("play-on-click", {
-         init: function () {
-           this.onClick = this.onClick.bind(this);
-         },
-         play: function () {
-           window.addEventListener("click", this.onClick);
-         },
-         pause: function () {
-           window.removeEventListener("click", this.onClick);
-         },
-         onClick: function (evt) {
-           // Pausar todos los otros videos antes de reproducir este
-           const allVideos = document.querySelectorAll('a-video');
-           allVideos.forEach(video => {
-             if (video !== this.el) {
-               const otherVideoEl = video.getAttribute("material").src;
-               if (otherVideoEl) {
-                 otherVideoEl.pause();
-               }
-             }
-           });
-           var videoEl = this.el.getAttribute("material").src;
-           if (!videoEl) {
-             return;
-           }
-			videoEl.play();
-         },
-       });
-		  
-       AFRAME.registerComponent("show-on-found", {
-         init: function () {
-           this.el.addEventListener('targetFound', () => {
-             const video = this.el.querySelector('a-video');
-             if (video) {
-               video.object3D.visible = true;
-             }
-           });
-         }
-       });
-		  
-       AFRAME.registerComponent("pause-on-lost", {
-         init: function () {
-           this.el.addEventListener('targetLost', () => {
-             const video = this.el.querySelector('a-video');
-             if (video) {
-               const videoEl = video.getAttribute('material').src;
-               videoEl.pause();
-               video.object3D.visible = false;
-             }
-           });
-         }
-       });	
+       AFRAME.registerComponent('mytarget', {
+        init: function () {
+          this.el.addEventListener('targetFound', event => {
+            console.log("target found");
+            const video = this.el.querySelector('a-video');
+            if (video) {
+              video.object3D.visible = true;
+              const videoEl = video.getAttribute('material').src;
+              if (videoEl) {
+                videoEl.play();
+              }
+            }
+          });
+          this.el.addEventListener('targetLost', event => {
+            console.log("target found");
+          	const video = this.el.querySelector('a-video');
+            if (video) {
+              const videoEl = video.getAttribute('material').src;
+              if (videoEl) {
+                videoEl.pause();
+              }
+              video.object3D.visible = false;
+            }
+          });
+        }
+      });
     </script>
   </body>
 </html>
