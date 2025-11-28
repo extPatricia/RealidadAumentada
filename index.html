@@ -35,10 +35,10 @@
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <a-entity mindar-image-target="targetIndex: 0">
-		<a-video src="#videoIciar" position="0 0 0.1" width="2" height="2" rotation="0 0 0" material="shader: flat" play-on-click></a-video>	
+      <a-entity mindar-image-target="targetIndex: 0" control-video-target="video: #videoIciar">
+		<a-video src="#videoIciar" position="0 0 0.1" width="2" height="4" rotation="0 0 0" material="shader: flat" play-on-click></a-video>	
 	  </a-entity>
-	  <a-entity mindar-image-target="targetIndex: 1">
+	  <a-entity mindar-image-target="targetIndex: 1" control-video-target="video: #videoAmigos">
 		<a-video src="#videoAmigos" position="0 0 0.1" width="2" height="2" rotation="0 0 0" material="shader: flat" play-on-click></a-video>
 	  </a-entity>
 	  <a-entity mindar-image-target="targetIndex: 2">
@@ -50,24 +50,46 @@
 	   </a-entity>
     </a-scene>
 	  <script>
-      AFRAME.registerComponent("play-on-click", {
+      // AFRAME.registerComponent("play-on-click", {
+      //   init: function () {
+      //     this.onClick = this.onClick.bind(this);
+      //   },
+      //   play: function () {
+      //     window.addEventListener("click", this.onClick);
+      //   },
+      //   pause: function () {
+      //     window.removeEventListener("click", this.onClick);
+      //   },
+      //   onClick: function (evt) {
+      //     var videoEl = this.el.getAttribute("material").src;
+      //     if (!videoEl) {
+      //       return;
+      //     }
+      //     this.el.object3D.visible = true;
+      //     videoEl.play();
+      //   },
+      // });
+		  AFRAME.registerComponent("control-video-target", {
+        schema: {
+          video: { type: 'selector' }
+        },
+
         init: function () {
-          this.onClick = this.onClick.bind(this);
-        },
-        play: function () {
-          window.addEventListener("click", this.onClick);
-        },
-        pause: function () {
-          window.removeEventListener("click", this.onClick);
-        },
-        onClick: function (evt) {
-          var videoEl = this.el.getAttribute("material").src;
-          if (!videoEl) {
-            return;
-          }
-          this.el.object3D.visible = true;
-          videoEl.play();
-        },
+          const video = this.data.video;
+
+          // Cuando la imagen aparece
+          this.el.addEventListener("targetFound", () => {
+            console.log("Target detectado");
+            video.play();
+          });
+
+          // Cuando la imagen desaparece
+          this.el.addEventListener("targetLost", () => {
+            console.log("Target perdido");
+            video.pause();
+            video.currentTime = 0; // Reiniciar (opcional)
+          });
+        }
       });
     </script>
   </body>
