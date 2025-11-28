@@ -14,7 +14,6 @@
 			  preload="auto" 
 			  response-type="arraybuffer" 
 			  loop
-			  autoplay
 	          crossorigin
 	          playsinline
 	          webkit-playsinline>	  
@@ -25,7 +24,6 @@
 			  preload="auto" 
 			  response-type="arraybuffer" 
 			  loop
-			  autoplay
 	          crossorigin
 	          playsinline
 	          webkit-playsinline>	  
@@ -50,33 +48,6 @@
 	   </a-entity>
     </a-scene>
 	  <script>
-  AFRAME.registerComponent("play-on-click", {
-    schema: { video: { type: "selector" } },
-
-    init: function () {
-      const video = this.data.video;
-      this.targetVisible = false;
-
-      // Detectar si el target está visible
-      this.el.parentEl.addEventListener("targetFound", () => {
-        this.targetVisible = true;
-      });
-
-      this.el.parentEl.addEventListener("targetLost", () => {
-        this.targetVisible = false;
-      });
-
-      // Reproducir solo si el target está visible
-      window.addEventListener("click", () => {
-        if (this.targetVisible) {
-          video.play();
-        }
-      });
-    }
-  });
-</script>
-
-	 	<!--<script>
        AFRAME.registerComponent("play-on-click", {
          init: function () {
            this.onClick = this.onClick.bind(this);
@@ -97,22 +68,6 @@
          },
        });
 	
-    </script>-->
-
-    <!-- COMPONENTE: PAUSAR VIDEO AL PERDER EL TARGET -->
-    <script>
-      AFRAME.registerComponent("pause-on-target-lost", {
-        schema: { video: { type: "selector" } },
-
-        init: function () {
-          const video = this.data.video;
-
-          this.el.addEventListener("targetLost", () => {
-            video.pause();
-          });
-        }
-      });
     </script>
-    
   </body>
 </html>
