@@ -49,38 +49,27 @@
 		 </a-gltf-model>
 	   </a-entity>
     </a-scene>
-	 <!--
-      // AFRAME.registerComponent("play-on-click", {
-      //   init: function () {
-      //     this.onClick = this.onClick.bind(this);
-      //   },
-      //   play: function () {
-      //     window.addEventListener("click", this.onClick);
-      //   },
-      //   pause: function () {
-      //     window.removeEventListener("click", this.onClick);
-      //   },
-      //   onClick: function (evt) {
-      //     var videoEl = this.el.getAttribute("material").src;
-      //     if (!videoEl) {
-      //       return;
-      //     }
-      //     this.el.object3D.visible = true;
-      //     videoEl.play();
-      //   },
-      // });-->
-		<script>
-      AFRAME.registerComponent("play-on-click", {
-        schema: { video: { type: "selector" } },
-
-        init: function () {
-          const video = this.data.video;
-
-          window.addEventListener("click", () => {
-            video.play();
-          });
-        }
-      });
+	 	<script>
+       AFRAME.registerComponent("play-on-click", {
+         init: function () {
+           this.onClick = this.onClick.bind(this);
+         },
+         play: function () {
+           window.addEventListener("click", this.onClick);
+         },
+         pause: function () {
+           window.removeEventListener("click", this.onClick);
+         },
+         onClick: function (evt) {
+           var videoEl = this.el.getAttribute("material").src;
+           if (!videoEl) {
+             return;
+           }
+           this.el.object3D.visible = true;
+           videoEl.play();
+         },
+       });
+	
     </script>
 
     <!-- COMPONENTE: PAUSAR VIDEO AL PERDER EL TARGET -->
