@@ -38,8 +38,18 @@
             if (video) {
               video.object3D.visible = true;
               const videoEl = video.getAttribute('material').src;
+              if (video) {
+              video.object3D.visible = true;
+              // Intenta reproducir automáticamente con sonido
+              const videoEl = video.getAttribute('material').src;
               if (videoEl) {
-                videoEl.play();
+                videoEl.play().catch(e => {
+                  console.log("Autoplay con sonido bloqueado:", e);
+                  // Si falla, añade un click para reproducir
+                  video.addEventListener('click', () => {
+                    videoEl.play();
+                  });
+                });
               }
             }
           });
