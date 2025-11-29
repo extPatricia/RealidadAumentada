@@ -8,37 +8,36 @@
 	<script>
        AFRAME.registerComponent('video-handler', {
 		init: function () {
-		    this.videoElement = this.el.components.video.videoEl;
-			//this.video = document.querySelector("#videoIciar");
+			this.video = document.querySelector("#videoIciar");
 			//this.video = this.el.querySelector('a-plane').getAttribute('material').src;
 			//this.videoElement = document.querySelector(this.video);
-			this.videoElement.pause();
+			this.video.pause();
 			this.isPlaying = false;
 
 			// Listener para perder el target
-			// this.el.sceneEl.addEventListener('targetLost', () => {
-			//   if (this.isPlaying) {
-			//     this.video.pause();
-			//     this.isPlaying = false;
-			//     console.log("Target perdido: Video pausado automáticamente");
+			 this.el.sceneEl.addEventListener('targetLost', () => {
+			   if (this.isPlaying) {
+			     this.video.pause();
+			     this.isPlaying = false;
+			     console.log("Target perdido: Video pausado automáticamente");
+			   }
+			 });
+			// this.el.sceneEl.addEventListener('targetLost', (event) => {
+			//   if (event.detail.targetIndex === parseInt(this.el.getAttribute('mindar-image-target').targetIndex)) {
+			//     if (this.isPlaying) {
+			//       this.videoElement.pause();
+			//       this.isPlaying = false;
+			//       console.log(`Target ${event.detail.targetIndex} perdido: Video pausado automáticamente`);
+			//     }
 			//   }
 			// });
-			this.el.sceneEl.addEventListener('targetLost', (event) => {
-			  if (event.detail.targetIndex === parseInt(this.el.getAttribute('mindar-image-target').targetIndex)) {
-			    if (this.isPlaying) {
-			      this.videoElement.pause();
-			      this.isPlaying = false;
-			      console.log(`Target ${event.detail.targetIndex} perdido: Video pausado automáticamente`);
-			    }
-			  }
-			});
 			
 			this.el.addEventListener('click', () => {
 				if (this.isPlaying) {
-					this.videoElement.pause();
+					this.video.pause();
 					console.log("Video Pausado");
 				} else {
-					this.videoElement.play();
+					this.video.play();
 					console.log("Video Reproduciendo");
 				}
 				this.isPlaying = !this.isPlaying;
