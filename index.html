@@ -12,6 +12,12 @@
 			this.video.pause();
 			this.isPlaying = false;
 
+			this.el.sceneEl.addEventListener("targetFound", () => {
+		      console.log("Target detectado: reproduciendo video");
+		      this.video.play();
+		      this.isPlaying = true;
+		    });
+
 			// Listener para perder el target
 			 this.el.sceneEl.addEventListener('targetLost', () => {
 			   if (this.isPlaying) {
@@ -37,7 +43,7 @@
   <body>
     <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
-		  <video id="videoIciar" preload="auto" loop playsinline crossOrigin="anonymous" src="./videoIciar.mp4"></video>
+		  <video id="videoIciar" preload="auto" loop playsinline  webkit-playsinline crossOrigin="anonymous" src="./videoIciar.mp4"></video>
 		  <!--<video id="videoAmigos" preload="auto" loop playsinline crossOrigin="anonymous" src="./videoAmigos.mp4"></video>-->
 	  </a-assets>
 
