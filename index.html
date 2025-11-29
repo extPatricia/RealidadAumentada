@@ -44,8 +44,8 @@
 		init: function () {
 			//this.video = document.querySelector("#videoIciar");
 			//this.video = this.el.querySelector('a-video').getAttribute('material').src; a-plane
-			this.video = this.el.components.video.videoEl;
-			this.video.pause();
+			this.videoElement = this.el.components.video.videoEl;
+			this.videoElement.pause();
 			this.isPlaying = false;
 
 			// Listener para perder el target
@@ -59,7 +59,7 @@
 			this.el.sceneEl.addEventListener('targetLost', (event) => {
 			  if (event.detail.targetIndex === parseInt(this.el.getAttribute('mindar-image-target').targetIndex)) {
 			    if (this.isPlaying) {
-			      this.video.pause();
+			      this.videoElement.pause();
 			      this.isPlaying = false;
 			      console.log(`Target ${event.detail.targetIndex} perdido: Video pausado automáticamente`);
 			    }
@@ -68,10 +68,10 @@
 			
 			this.el.addEventListener('click', () => {
 			if (this.isPlaying) {
-				this.video.pause();
+				this.videoElement.pause();
 				console.log("Video Pausado");
 			} else {
-				this.video.play();
+				this.videoElement.play();
 				console.log("Video Reproduciendo");
 			}
 				this.isPlaying = !this.isPlaying;
