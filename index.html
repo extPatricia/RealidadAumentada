@@ -20,6 +20,7 @@
 	  	<a-plane
 			class="clickable"
 			video-handler
+			smooth-position="bufferSize: 5"
 			material="src: #videoIciar"
 			geometry="primitive: plane; width: 1; height: 2;"
 			position="0 0 0"
@@ -56,7 +57,32 @@
 				this.isPlaying = !this.isPlaying;
 			});
 		}
-	 });
+	  });
+	  AFRAME.registerComponent('smooth-position', {
+		schema: { bufferSize: { type: 'number', default: 5 } }, // Número de posiciones a promediar
+		init: function () {
+			this.positionBuffer = [];
+		},
+		tick: function () {
+			const currentPos = this.el.getAttribute('position');
+			this.positionBuffer.push({ x: currentPos.x, y: currentPos.y, z: currentPos.z });
+			if (this.positionBuffer.length > this.data.bufferSize) {
+				this.positionBuffer.shift(); // Mantén solo las últimas N
+			}
+			// Calcula promedio
+			let avgX = 0, avgY = 0, avgZ = 0;
+			this.positionBuffer.forEach(pos => {
+				avgX += pos.x;
+				avgY += pos.y;
+				avgZ += pos.z;
+			});
+			avgX /= this.positionBuffer.length;
+			avgY /= this.positionBuffer.length;
+			avgZ /= this.positionBuffer.length;
+			// Aplica la posición suavizada
+			this.el.setAttribute('position', { x: avgX, y: avgY, z: avgZ });
+		}
+	  });
     </script>
   </body>
 </html>
