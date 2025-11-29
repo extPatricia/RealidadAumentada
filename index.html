@@ -16,7 +16,7 @@
 			this.isPlaying = false;
 
 			this.el.sceneEl.addEventListener('targetFound', (event) => {
-			    if (event.detail.targetIndex === parseInt(targetIndex)) {
+			    if (this.targetIndex !== null && event.detail.targetIndex === parseInt(targetIndex)) {
 			      if (!this.isPlaying) {
 			        this.video.play();
 			        this.isPlaying = true;
@@ -43,7 +43,14 @@
 				}
 				this.isPlaying = !this.isPlaying;
 			});
-		  }
+		  },
+		   update: function () {
+			  // Leer targetIndex aquí, cuando el atributo esté disponible
+			  const targetAttr = this.el.getAttribute('mindar-image-target');
+			  this.targetIndex = targetAttr ? targetAttr.targetIndex : null;
+			  console.log(`Componente actualizado para targetIndex: ${this.targetIndex}`);
+			}
+			});
 	   });
     </script>
   <body>
