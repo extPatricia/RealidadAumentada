@@ -8,11 +8,22 @@
 	<script>
        AFRAME.registerComponent('video-handler', {
 		init: function () {
+			const targetAttr = this.el.getAttribute('mindar-image-target');
+			const targetIndex = targetAttr ? targetAttr.targetIndex : null;
+			console.log(`Componente inicializado para targetIndex: ${targetIndex}`);
 			this.video = document.querySelector("#videoIciar");
-			console.log(`Target ${event.detail.targetIndex} encontrado: Video reproduciendo automáticamente`);
 			this.video.pause();
 			this.isPlaying = false;
 
+			this.el.sceneEl.addEventListener('targetFound', (event) => {
+			    if (event.detail.targetIndex === parseInt(targetIndex)) {
+			      if (!this.isPlaying) {
+			        this.video.play();
+			        this.isPlaying = true;
+			        console.log(`Target ${targetIndex} encontrado: Video reproduciendo automáticamente`);
+			      }
+			    }
+			  });
 			// Listener para perder el target
 			 this.el.sceneEl.addEventListener('targetLost', () => {
 			   if (this.isPlaying) {
