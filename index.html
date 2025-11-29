@@ -8,9 +8,14 @@
 	<script>
        AFRAME.registerComponent('video-handler', {
 		init: function () {
+		  this.initialized = false;
+		},
+		tick: function () {
+		  if (!this.initialized && this.el.components.video && this.el.components.video.videoEl) {
+		    this.videoElement = this.el.components.video.videoEl;
 			//this.video = document.querySelector("#videoIciar");
-			this.video = this.el.querySelector('a-plane').getAttribute('material').src;
-			this.videoElement = document.querySelector(this.video);
+			//this.video = this.el.querySelector('a-plane').getAttribute('material').src;
+			//this.videoElement = document.querySelector(this.video);
 			this.videoElement.pause();
 			this.isPlaying = false;
 
@@ -44,31 +49,6 @@
 			});
 		}
 	  });
-	  AFRAME.registerComponent('smooth-position', {
-		schema: { bufferSize: { type: 'number', default: 5 } }, // Número de posiciones a promediar
-		init: function () {
-			this.positionBuffer = [];
-		},
-		tick: function () {
-			const currentPos = this.el.getAttribute('position');
-			this.positionBuffer.push({ x: currentPos.x, y: currentPos.y, z: currentPos.z });
-			if (this.positionBuffer.length > this.data.bufferSize) {
-				this.positionBuffer.shift(); // Mantén solo las últimas N
-			}
-			// Calcula promedio
-			let avgX = 0, avgY = 0, avgZ = 0;
-			this.positionBuffer.forEach(pos => {
-				avgX += pos.x;
-				avgY += pos.y;
-				avgZ += pos.z;
-			});
-			avgX /= this.positionBuffer.length;
-			avgY /= this.positionBuffer.length;
-			avgZ /= this.positionBuffer.length;
-			// Aplica la posición suavizada
-			this.el.setAttribute('position', { x: avgX, y: avgY, z: avgZ });
-		}
-	  });
     </script>
   <body>
     <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
@@ -85,7 +65,6 @@
 	  	<a-plane
 			class="clickable"
 			video-handler
-			smooth-position="bufferSize: 5"
 			material="src: #videoIciar"
 			geometry="primitive: plane; width: 1; height: 2.5;"
 			position="0 0 0"
