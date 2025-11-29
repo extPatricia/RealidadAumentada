@@ -45,7 +45,16 @@
 			this.video = document.querySelector("#videoIciar");
 			this.video.pause();
 			this.isPlaying = false;
-			 
+
+			// Listener para perder el target
+			this.el.sceneEl.addEventListener('targetLost', () => {
+			  if (this.isPlaying) {
+			    this.video.pause();
+			    this.isPlaying = false;
+			    console.log("Target perdido: Video pausado automáticamente");
+			  }
+			});
+			
 			this.el.addEventListener('click', () => {
 			if (this.isPlaying) {
 				this.video.pause();
