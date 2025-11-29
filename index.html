@@ -10,8 +10,6 @@
 		init: function () {
 			this.video = document.querySelector("#videoIciar");
 			console.log(`Target ${event.detail.targetIndex} encontrado: Video reproduciendo automáticamente`);
-			//this.video = this.el.querySelector('a-plane').getAttribute('material').src;
-			//this.videoElement = document.querySelector(this.video);
 			this.video.pause();
 			this.isPlaying = false;
 
@@ -23,15 +21,6 @@
 			     console.log("Target perdido: Video pausado automáticamente");
 			   }
 			 });
-			// this.el.sceneEl.addEventListener('targetLost', (event) => {
-			//   if (event.detail.targetIndex === parseInt(this.el.getAttribute('mindar-image-target').targetIndex)) {
-			//     if (this.isPlaying) {
-			//       this.videoElement.pause();
-			//       this.isPlaying = false;
-			//       console.log(`Target ${event.detail.targetIndex} perdido: Video pausado automáticamente`);
-			//     }
-			//   }
-			// });
 			
 			this.el.addEventListener('click', () => {
 				if (this.isPlaying) {
@@ -66,7 +55,7 @@
 			position="0 0 0"
 			rotation="0 0 0"
 			>
-		</a-plane>--
+		</a-plane>-->
 	  </a-entity>
 	 <!-- <a-entity mindar-image-target="targetIndex: 1">
 		<!--<a-video class="clickable" video-handler smooth-position="bufferSize: 5" src="#videoAmigos" width="2" height="2.5" position="0 0 0" rotation="0 0 0"></a-video>
