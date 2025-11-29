@@ -8,15 +8,24 @@
   <body>
     <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
-		  <video id="videoIciar" autoplay="false" loop="true" src="./videoIciar.mp4"></video>
+		  <video id="videoIciar" preload="auto" loop playsinline crossOrigin="anonymous" src="./videoIciar.mp4"></video>
 		 <!-- <video id="videoAmigos" autoplay="false" loop="true" src="./videoAmigos.mp4"></video>-->
 		  <a-asset-item id="avatarModel" src="./sackboy.glb"></a-asset-item>
 	  </a-assets>
 
-      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+      <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="near: 10; far: 10000; objects: .clickable"></a-camera>
 
-      <a-entity mytarget mindar-image-target="targetIndex: 0">
-		<a-video src="#videoIciar" webkit-playsinline playsinline width="2" height="3" position="0 0 0" rotation="0 0 0"></a-video>
+      <a-entity mindar-image-target="targetIndex: 0">
+		<!--<a-video src="#videoIciar" webkit-playsinline playsinline width="2" height="3" position="0 0 0" rotation="0 0 0"></a-video>-->
+	  	<a-plane
+			class="clickable"
+			video-handler
+			material="src: #videoIciar"
+			geometry="primitive: plane; width: 1; height: 0.5625;"
+			position="0 0 0"
+			rotation="0 0 0"
+			>
+		</a-plane>
 	  </a-entity>
 	  <!--<a-entity mindar-image-target="targetIndex: 1">
 		<a-video id="videoAmigos" webkit-playsinline playsinline position="0 0 0" width="2" height="2" rotation="0 0 0"></a-video>
@@ -30,35 +39,24 @@
 	   </a-entity>
     </a-scene>
 	  <script>
-       AFRAME.registerComponent('mytarget', {
- 		        init: function () {
-          this.el.addEventListener('targetFound', event => {
-            console.log("target found");
-            const video = this.el.querySelector('a-video');
-            if (video) {
-              video.object3D.visible = true;
-              // Añade event listener para click y reproduce con sonido
-              video.addEventListener('click', () => {
-                const videoEl = video.getAttribute('material').src;
-                if (videoEl) {
-                  videoEl.play();
-                }
-              });
-            }
-          });
-          this.el.addEventListener('targetLost', event => {
-            console.log("target lost");
-          	const video = this.el.querySelector('a-video');
-            if (video) {
-              const videoEl = video.getAttribute('material').src;
-              if (videoEl) {
-                videoEl.pause();
-              }
-              video.object3D.visible = false;
-            }
-		});
-        }
-      });
+       AFRAME.registerComponent('video-handler', {
+		init: function () {
+			this.video = document.querySelector("#videoIciar");
+			this.video.pause();
+			this.isPlaying = false;
+			 
+			this.el.addEventListener('click', () => {
+			if (this.isPlaying) {
+				this.video.pause();
+				console.log("Video Pausado");
+			} else {
+				this.video.play();
+				console.log("Video Reproduciendo");
+			}
+				this.isPlaying = !this.isPlaying;
+			});
+		}
+	 });
     </script>
   </body>
 </html>
