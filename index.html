@@ -74,7 +74,7 @@
     <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
 		  <video id="videoIciar" preload="auto" loop playsinline crossOrigin="anonymous" src="./videoIciar.mp4"></video>
-		  <video id="videoAmigos" preload="auto" loop playsinline crossOrigin="anonymous" src="./videoAmigos.mp4"></video>
+		  <!--<video id="videoAmigos" preload="auto" loop playsinline crossOrigin="anonymous" src="./videoAmigos.mp4"></video>-->
 		  <a-asset-item id="avatarModel" src="./sackboy.glb"></a-asset-item>
 	  </a-assets>
 
@@ -93,8 +93,8 @@
 			>
 		</a-plane>
 	  </a-entity>
-	  <a-entity mindar-image-target="targetIndex: 1">
-		<!--<a-video class="clickable" video-handler smooth-position="bufferSize: 5" src="#videoAmigos" width="2" height="2.5" position="0 0 0" rotation="0 0 0"></a-video>-->
+	 <!-- <a-entity mindar-image-target="targetIndex: 1">
+		<!--<a-video class="clickable" video-handler smooth-position="bufferSize: 5" src="#videoAmigos" width="2" height="2.5" position="0 0 0" rotation="0 0 0"></a-video>
 		  <a-plane
 			class="clickable"
 			video-handler
@@ -105,7 +105,7 @@
 			rotation="0 0 0"
 			>
 		</a-plane>
-	  </a-entity>
+	  </a-entity>-->
 	  <a-entity mindar-image-target="targetIndex: 2">
 		 <a-gltf-model 
 		  src="#avatarModel"
