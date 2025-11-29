@@ -45,10 +45,18 @@
 			});
 		  },
 		   update: function () {
-			  // Leer targetIndex aquí, cuando el atributo esté disponible
-			  const targetAttr = this.el.getAttribute('mindar-image-target');
-			  this.targetIndex = targetAttr ? targetAttr.targetIndex : null;
+			  // Intentar leer en update()
+			  this.targetIndex = this.el.components['mindar-image-target'] ? this.el.components['mindar-image-target'].data.targetIndex : null;
 			  console.log(`Componente actualizado para targetIndex: ${this.targetIndex}`);
+			},
+			tick: function () {
+			  // Si no se leyó en update(), intentar aquí (por si se registra tarde)
+			  if (this.targetIndex === null) {
+			    this.targetIndex = this.el.components['mindar-image-target'] ? this.el.components['mindar-image-target'].data.targetIndex : null;
+			    if (this.targetIndex !== null) {
+			      console.log(`TargetIndex leído en tick: ${this.targetIndex}`);
+			    }
+			  }
 			}
 	   });
     </script>
