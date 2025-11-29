@@ -9,14 +9,14 @@
     <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
 		  <video id="videoIciar" preload="auto" loop playsinline crossOrigin="anonymous" src="./videoIciar.mp4"></video>
-		 <!-- <video id="videoAmigos" autoplay="false" loop="true" src="./videoAmigos.mp4"></video>-->
+		  <video id="videoAmigos" preload="auto" loop playsinline crossOrigin="anonymous" src="./videoAmigos.mp4"></video>
 		  <a-asset-item id="avatarModel" src="./sackboy.glb"></a-asset-item>
 	  </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="near: 10; far: 10000; objects: .clickable"></a-camera>
 
       <a-entity mindar-image-target="targetIndex: 0">
-		<a-video class="clickable" video-handler smooth-position="bufferSize: 5" src="#videoIciar" width="1" height="2" position="0 0 0" rotation="0 0 0"></a-video>
+		<a-video class="clickable" video-handler smooth-position="bufferSize: 5" src="#videoIciar" width="2" height="2.5" position="0 0 0" rotation="0 0 0"></a-video>
 	  	<!--<a-plane
 			class="clickable"
 			video-handler
@@ -28,9 +28,9 @@
 			>
 		</a-plane>-->
 	  </a-entity>
-	  <!--<a-entity mindar-image-target="targetIndex: 1">
-		<a-video id="videoAmigos" webkit-playsinline playsinline position="0 0 0" width="2" height="2" rotation="0 0 0"></a-video>
-	  </a-entity>-->
+	  <a-entity mindar-image-target="targetIndex: 1">
+		<a-video class="clickable" video-handler smooth-position="bufferSize: 5" src="#videoAmigos" width="2" height="2.5" position="0 0 0" rotation="0 0 0"></a-video>
+	  </a-entity>
 	  <a-entity mindar-image-target="targetIndex: 2">
 		 <a-gltf-model 
 		  src="#avatarModel"
@@ -42,16 +42,27 @@
 	  <script>
        AFRAME.registerComponent('video-handler', {
 		init: function () {
-			this.video = document.querySelector("#videoIciar");
+			//this.video = document.querySelector("#videoIciar");
+			//this.video = this.el.querySelector('a-video').getAttribute('material').src; a-plane
+			this.video = this.el.components.video.videoEl;
 			this.video.pause();
 			this.isPlaying = false;
 
 			// Listener para perder el target
-			this.el.sceneEl.addEventListener('targetLost', () => {
-			  if (this.isPlaying) {
-			    this.video.pause();
-			    this.isPlaying = false;
-			    console.log("Target perdido: Video pausado automáticamente");
+			// this.el.sceneEl.addEventListener('targetLost', () => {
+			//   if (this.isPlaying) {
+			//     this.video.pause();
+			//     this.isPlaying = false;
+			//     console.log("Target perdido: Video pausado automáticamente");
+			//   }
+			// });
+			this.el.sceneEl.addEventListener('targetLost', (event) => {
+			  if (event.detail.targetIndex === parseInt(this.el.getAttribute('mindar-image-target').targetIndex)) {
+			    if (this.isPlaying) {
+			      this.video.pause();
+			      this.isPlaying = false;
+			      console.log(`Target ${event.detail.targetIndex} perdido: Video pausado automáticamente`);
+			    }
 			  }
 			});
 			
