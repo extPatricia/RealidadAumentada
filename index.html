@@ -9,6 +9,7 @@
        AFRAME.registerComponent('video-handler', {
 		init: function () {
 			this.video = document.querySelector("#videoIciar");
+			console.log(`Target ${event.detail.targetIndex} encontrado: Video reproduciendo automáticamente`);
 			//this.video = this.el.querySelector('a-plane').getAttribute('material').src;
 			//this.videoElement = document.querySelector(this.video);
 			this.video.pause();
