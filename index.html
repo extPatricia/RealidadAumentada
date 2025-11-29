@@ -8,22 +8,10 @@
 	<script>
        AFRAME.registerComponent('video-handler', {
 		init: function () {
-			const targetAttr = this.el.getAttribute('mindar-image-target');
-			const targetIndex = targetAttr ? targetAttr.targetIndex : null;
-			console.log(`Componente inicializado para targetIndex: ${targetIndex}`);
 			this.video = document.querySelector("#videoIciar");
 			this.video.pause();
 			this.isPlaying = false;
 
-			this.el.sceneEl.addEventListener('targetFound', (event) => {
-			    if (this.targetIndex !== null && event.detail.targetIndex === parseInt(targetIndex)) {
-			      if (!this.isPlaying) {
-			        this.video.play();
-			        this.isPlaying = true;
-			        console.log(`Target ${targetIndex} encontrado: Video reproduciendo automáticamente`);
-			      }
-			    }
-			  });
 			// Listener para perder el target
 			 this.el.sceneEl.addEventListener('targetLost', () => {
 			   if (this.isPlaying) {
@@ -43,21 +31,7 @@
 				}
 				this.isPlaying = !this.isPlaying;
 			});
-		  },
-		   update: function () {
-			  // Intentar leer en update()
-			  this.targetIndex = this.el.components['mindar-image-target'] ? this.el.components['mindar-image-target'].data.targetIndex : null;
-			  console.log(`Componente actualizado para targetIndex: ${this.targetIndex}`);
-			},
-			tick: function () {
-			  // Si no se leyó en update(), intentar aquí (por si se registra tarde)
-			  if (this.targetIndex === null) {
-			    this.targetIndex = this.el.components['mindar-image-target'] ? this.el.components['mindar-image-target'].data.targetIndex : null;
-			    if (this.targetIndex !== null) {
-			      console.log(`TargetIndex leído en tick: ${this.targetIndex}`);
-			    }
-			  }
-			}
+		  }
 	   });
     </script>
   <body>
@@ -65,7 +39,6 @@
       <a-assets>
 		  <video id="videoIciar" preload="auto" loop playsinline crossOrigin="anonymous" src="./videoIciar.mp4"></video>
 		  <!--<video id="videoAmigos" preload="auto" loop playsinline crossOrigin="anonymous" src="./videoAmigos.mp4"></video>-->
-		  <a-asset-item id="avatarModel" src="./sackboy.glb"></a-asset-item>
 	  </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="near: 10; far: 10000; objects: .clickable"></a-camera>
@@ -95,12 +68,6 @@
 			>
 		</a-plane>
 	  </a-entity>-->
-	  <a-entity mindar-image-target="targetIndex: 2">
-		 <a-gltf-model 
-		  src="#avatarModel"
-		  scale="1 1 1"
-		  position="0 0 0.1">
-		 </a-gltf-model>
 	   </a-entity>
     </a-scene> 
   </body>
